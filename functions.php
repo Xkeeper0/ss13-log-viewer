@@ -168,10 +168,14 @@ E;
 			$msg	= remove_say_tags($typeL, $msg);
 		}
 
-		$oldmsg	= $msg;
-		//$msgdom = DOMDocument::loadHTML($msg, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-		$msgdom = DOMDocument::loadHTML('<span class="message">'. $msg .'</span>', LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-		$msg = $msgdom->saveHTML();
+		if (class_exists("DOMDocument")) {
+			$oldmsg	= $msg;
+			//$msgdom = DOMDocument::loadHTML($msg, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+			$msgdom = DOMDocument::loadHTML('<span class="message">'. $msg .'</span>', LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+			$msg = $msgdom->saveHTML();
+		} else {
+			$msg	= '<span class="message">'. $msg .'</span>';
+		}
 
 		print <<<E
 	<p class="log-$typeL">
