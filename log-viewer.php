@@ -74,6 +74,7 @@
 		'vehicle',
 		'pathology',
 		'bombing',
+		'telepathy',
 	];
 
 	foreach ($types as $type) {

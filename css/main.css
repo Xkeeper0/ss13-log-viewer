@@ -227,6 +227,7 @@ button, input[type=submit] { display: block; width: 100%; }
 .hide-say .log-say { display: none; }
 .hide-whisper .log-whisper { display: none; }
 .hide-emote .log-emote { display: none; }
+.hide-telepathy .log-telepathy { display: none; }
 .hide-pdamsg .log-pdamsg { display: none; }
 .hide-combat .log-combat { display: none; }
 .hide-vehicle .log-vehicle { display: none; }
