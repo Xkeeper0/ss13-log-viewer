@@ -33,7 +33,7 @@
 			$oldmsg	= $msg;
 			//$msgdom = DOMDocument::loadHTML($msg, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
 			$msgdom	= new DOMDocument();
-			$msgdom->loadHTML('<span class="message">'. $msg .'</span>', LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+			@$msgdom->loadHTML('<span class="message">'. $msg .'</span>', LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
 			$msg = $msgdom->saveHTML();
 		} else {
 			$msg	= '<span class="message">'. $msg .'</span>';
@@ -74,7 +74,7 @@ E;
 		$msg	= str_replace('(<b>Contents:</b> <i>nothing</i>)', '<span class="reagents empty">&mdash;</span>', $msg);
 
 		// canisters
-		$msg	= preg_replace_callback('#\(<b>Pressure:</b> <i>([0-9a-z. ]+)<\/i>. <b>Temp:</b> <i>([0-9&;a-z-]+)</i>, <b>Contents:</b> <i>(.*)<\/i>\)#i', 'do_canister_atmos', $msg);
+		$msg	= preg_replace_callback('#\(<b>Pressure:</b> <i>([0-9a-z. ]+)<\/i>. <b>Temp:</b> <i>([0-9&;a-z-]+)</i>, <b>Contents:</b> <i>(.*)<\/i>#i', 'do_canister_atmos', $msg);
 
 		// deaths
 		$msg	= preg_replace_callback('#\(<b>Damage:</b> <i>([0-9., ]+)<\/i>\)#i', 'do_damage_readout', $msg);
@@ -102,11 +102,16 @@ E;
 	// Could be made to be more better but right now: isn't!
 	function do_canister_atmos($matches) {
 
-		$a = [];
-		$m = preg_match('#([0-9.]+)% N2 / ([0-9.]+)% O2 / ([0-9.]+)% CO2 / ([0-9.]+)% PL#', $matches[3], $a);
+		$a		= [];
+		$m		= preg_match('#O2: ([0-9.]+)%, N2: ([0-9.]+)%, CO2: ([0-9.]+)%, Plasma: ([0-9.]+)%, Farts: ([0-9.]+)%#', $matches[3], $a);
+		$gas	= ['o2', 'n2', 'co2', 'pl', 'farts'];
+		if (!$m) {
+			// This is the old atmos readout
+			$m		= preg_match('#([0-9.]+)% N2 / ([0-9.]+)% O2 / ([0-9.]+)% CO2 / ([0-9.]+)% PL#', $matches[3], $a);
+			$gas	= ['n2', 'o2', 'co2', 'pl'];
+		}
 
 		$atm	= "<span class='atmos'>";
-		$gas	= ['n2', 'o2', 'co2', 'pl'];
 		$m		= 0;
 		array_shift($a);
 		foreach ($gas as $n => $poo) {
@@ -120,7 +125,7 @@ E;
 
 		}
 		$atm	.= "</span>\n";
-		return "$atm <span class='reagents'>$matches[1], $matches[2]</span>";
+		return "$atm <span class='reagents' title='$matches[3]'>$matches[1], $matches[2]</span>";
 		//var_dump($a);
 		//die();
 	}

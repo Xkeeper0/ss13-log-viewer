@@ -151,10 +151,11 @@ p {
 	top: 0;
 }
 
-.atmos-n2 { background: #f44; }
+.atmos-n2 { background: #ddd; }
 .atmos-o2 { background: #88f; }
 .atmos-co2 { background: #888; }
 .atmos-pl { background: #fb4; }
+.atmos-farts { background: #0a0; }
 
 .damage {
 	border: 1px solid black;
