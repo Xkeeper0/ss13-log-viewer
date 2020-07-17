@@ -60,7 +60,7 @@
 
 
 			$("#filter-button").click(function () {
-				$("#filters").toggle(100);
+				$("#options").toggle(100);
 			});
 
 		});
