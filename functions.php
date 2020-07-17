@@ -210,15 +210,19 @@ table table td + td {
 	font-family: monospace;
 }
 </style>
-<h1 style="text-align: center;">goon log viewer v1.2</h1>
-<form method="get"><div style="text-align: center;">
+<div style="text-align: center;">
+<h1>goon log viewer v1.2</h1>
+<a href="https://github.com/Xkeeper0/ss13-log-viewer">github</a> for issues, support, etc.
+<br>
+<br><form method="get">
 <label>start: <input type="date" name="min" value="$min"></label> &mdash;
 <label>end: <input type="date" name="max" value="$max"></label> &mdash;
 <input type="submit" value="show"></form></div>
+</div>
 
 <table style='width: 50%; margin: auto;'>
-	<tr>$thead</tr>
-	<tr>$tbody</tr>
+<tr>$thead</tr>
+<tr>$tbody</tr>
 </table>
 E;
 
