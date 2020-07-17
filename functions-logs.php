@@ -68,6 +68,7 @@ E;
 
 		// change coordinates
 		$msg	= preg_replace("/\(<a href='\\?src=%admin_ref%;action=jumptocoords;target=[^']+' title='Jump to Coords'>([^<]+)<\/a> in ([^)]+)\)/i", '<span class="location">\2 <span>(\1)</span></span>', $msg);
+		$msg	= preg_replace("/<a href=(?:'|\")\\?src=%admin_ref%;action=jumptocoords;target=[^'\"]+(?:'|\") title='Jump to Coords'>([^<]+)<\/a>/i", '<span class="location"><span>(\1)</span></span>', $msg);
 
 		// beaker contents
 		$msg	= preg_replace('#\(<b>Contents:</b> <i>(.*)<\/i>. <b>Temp:</b> <i>([0-9. K]+)</i>\)#i', '<span class="reagents">\1, \2</span>', $msg);
@@ -88,7 +89,9 @@ E;
 	function remove_say_tags($type, $msg) {
 
 		if ($type === "say" && strpos($msg, "SAY: ") !== false) {
-			$msg = str_replace("SAY: ", " says, \"", $msg) .'"';
+			//$msg	= str_replace("SAY: ", " says, \"", $msg) .'"';
+			$msg	= preg_replace("/SAY: (.*) (<span class=\"location)/i", 'says, "\1" \2', $msg);
+
 		} elseif ($type === "emote") {
 			$msg = str_replace("EMOTE: ", "", $msg);
 
@@ -156,7 +159,7 @@ E;
 			$m += $temp2 + 1;
 
 		}
-		$out	.= "</span>\n";
+		$out	.= "</span> ";
 		return $out;
 
 	}
