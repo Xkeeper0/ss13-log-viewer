@@ -170,11 +170,9 @@ ckey2
 		if ($print) {
 
 			$bits	= [];
-			$mOld		= preg_match('/^\[([0-9:]+)\] \[([^]]+)\] (.*)(?:<br>)$/i', trim($line), $bits);
-			$mNew		= preg_match('/^\[([0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]+)\] \[([^]]+)\] (.*)(?:<br>)$/i', trim($line), $bits);
-			if ($mOld) {
+			if ($mOld = preg_match('/^\[([0-9:]+)\] \[([^]]+)\] (.*)(?:<br>)$/i', trim($line), $bits)) {
 				pretty_log($n, $bits[1], $bits[2], $bits[3]);
-			} elseif ($mNew) {
+			} elseif ($mNew = preg_match('/^\[([0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]+)\] \[([^]]+)\] (.*)(?:<br>)$/i', trim($line), $bits)) {
 				pretty_log($n, $bits[1], $bits[2], $bits[3]);
 			} else {
 				print "<p>$line</p>";

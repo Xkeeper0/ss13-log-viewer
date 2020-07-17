@@ -120,7 +120,7 @@
 				// oh well
 				print "Error: ". $e->getMessage() . "<br>";
 			}
-	
+
 		}
 
 		return $logs;
@@ -140,6 +140,17 @@
 		$thead	= "";
 		$tbody	= "";
 
+
+		$min	= date("Y-m-d", time() - 86400 * 14);
+		if (isset($_GET['min'])) {
+			$min	= $_GET['min'];
+		}
+
+		$max	= null;;
+		if (isset($_GET['max'])) {
+			$max	= $_GET['max'];
+		}
+
 		foreach ($config['servers'] as $serverId => $server) {
 			if (!file_exists("logs/$serverId")) {
 				// No logs here, don't bother trying to scan it
@@ -148,20 +159,33 @@
 			$thead .= "<th>$serverId</th>";
 			$tbody .= "<td valign='top'><table><tbody>";
 			$ourLogs = array_flip(scandir("logs/$serverId"));
-
+			$prevDate = null;
 			foreach ($logs[$serverId] as $log) {
 				$islocal	= 0;
 				if (isset($ourLogs[$log])) {
 					unset($ourLogs[$log]);
 					$islocal = 1;
 				}
+
 				$logDisp	= preg_replace('/([0-9]{4})-([0-9]{2})-([0-9]{2})-([0-9]{2})-([0-9]{2})\.html/', '$1-$2-$3 $4:$5', $log);
+				$shortDate	= substr($logDisp, 0, 10);
+				if (!((!$min || $shortDate >= $min) && (!$max || $shortDate <= $max))) {
+					continue;
+				}
+				if ($prevDate && $shortDate !== $prevDate) {
+					$tbody .= "<tr><td colspan=2>&nbsp;</td></tr>\n";
+				}
+				$prevDate	= $shortDate;
+
 				$tbody .= "<tr><td><a href='?server=$serverId&amp;view=$log'>$logDisp</a>". ($islocal ? "*" : "") ."</td><td>". log_date_relative($log) ."</td></tr>\n";
 			}
 
 			foreach ($ourLogs as $log => $_) {
 				if ($log !== "." && $log !== "..") {
 					$logDisp	= preg_replace('/([0-9]{4})-([0-9]{2})-([0-9]{2})-([0-9]{2})-([0-9]{2})\.html/', '$1-$2-$3 $4:$5', $log);
+					if (!((!$min || $logDisp >= $min) && (!$max || $logDisp <= $max))) {
+						continue;
+					}
 					$tbody .= "<tr><td><a href='?server=$serverId&amp;view=$log'>$logDisp</a></td><td>not on remote</td></tr>\n";
 				}
 			}
@@ -169,8 +193,10 @@
 		}
 
 		return <<<E
-<h1>goon log viewer v1.2</h1>
 <style type="text/css">
+* { font-family: Verdana; }
+a { text-decoration: none; }
+
 table table tr:hover { background: #ddd; }
 table table td {
 	white-space: nowrap;
@@ -184,6 +210,12 @@ table table td + td {
 	font-family: monospace;
 }
 </style>
+<h1 style="text-align: center;">goon log viewer v1.2</h1>
+<form method="get"><div style="text-align: center;">
+<label>start: <input type="date" name="min" value="$min"></label> &mdash;
+<label>end: <input type="date" name="max" value="$max"></label> &mdash;
+<input type="submit" value="show"></form></div>
+
 <table style='width: 50%; margin: auto;'>
 	<tr>$thead</tr>
 	<tr>$tbody</tr>
