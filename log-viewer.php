@@ -2,41 +2,49 @@
 
 	require_once("includes.php");
 
+	$server		= v($_GET['server']);
+	$log		= v($_GET['view']);
+
+	// -----------------------------------------------------------------------
+	// If no log is specified, get a list of logs and then exit:
 
 	// No logs? Get logs.
-	if (!isset($_GET['view']) || !isset($_GET['server'])) {
+	if (!$log) {
 		$logs	= get_logs();
 		print list_available_logs($logs);
 		die();
-
 	}
 
-	$ms	= preg_match('#^[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}\.html$#', $_GET['view']);
+	// -----------------------------------------------------------------------
+	// If given a log to view, on the other hand:
+	$ms	= preg_match('#^[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}\.html$#', $log);
 	if (!$ms) {
-		die("i dont know what the fuck you did but it wasn't correct");
+		die("You are doing something weird.");
 
-	} elseif (!in_array($_GET['server'], $config['servers'])) {
-		die("You are putting things where they do not belong good sir.");
+	} elseif (!isset($config['servers'][$server])) {
+		die("That... isn't a server we have listed. What?");
 
 	}
 
 	if (isset($_GET['redownload'])) {
-		$file	= get_log($_GET['server'], $_GET['view'], true);
+		$file	= get_log($server, $log, true);
 		if ($file) {
-			header("Location: ?server=". $_GET['server'] ."&view=". $_GET['view'] ."");
+			header("Location: ?server=". $server ."&view=". $log ."");
 			die();
 		}
 
 	}
 
-	$file	= get_log($_GET['server'], $_GET['view']);
+	$file	= get_log($server, $log);
 	if (!$file) {
-		die("Error opening log. Sorry. Shit broke. Oh well.");
+		die("Error opening log. Sorry. It broke. Oh well.");
 	}
 
 
 	require("html/log_header.php");
 
+	// This is arbitrarily chosen as a "round ended" semaphore, but in theory it could be anything.
+	// I just chose this because I wrote it and it always print(s/ed) when the round 'ends'.
 	if (strpos($file, "Zamujasa/CREWCREDITS") === false) {
 		echo "<div style='font-size: 200%;'>It looks like this log might be incomplete. This might be because the round wasn't over when it was downloaded (or it might still be going on, who knows). <a href='?redownload=1&amp;server=". $_GET['server'] ."&amp;view=". $_GET['view'] ."'>Redownload?</a></div>";
 	}
@@ -75,8 +83,8 @@
 
 ?>
 		</div>
-		<br>
-		<label id="show-ckeys" class="faded"><input type="checkbox" disabled> Show ckeys</label>
+		<br><label id="show-ckeys" class="faded"><input type="checkbox" checked disabled> Show ckeys</label>
+		<br><label id="show-reltime" class="faded"><input type="checkbox" disabled> Relative timestamps</label>
 		<br>
 		<br>
 		<strong>Filter by text:</strong><br>
@@ -92,6 +100,7 @@ ckey2
 		</form>
 		<a href='?'>&larr; back to list</a>
 	</div>
+	<div id="log" class="show-realtime">
 <?php
 
 
@@ -160,14 +169,18 @@ ckey2
 		if ($print) {
 
 			$bits	= [];
-			$m		= preg_match('/^\[([0-9:]+)\] \[([^]]+)\] (.*)(?:<br>)$/i', trim($line), $bits);
-
-			if ($m) {
+			$mOld		= preg_match('/^\[([0-9:]+)\] \[([^]]+)\] (.*)(?:<br>)$/i', trim($line), $bits);
+			$mNew		= preg_match('/^\[([0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]+)\] \[([^]]+)\] (.*)(?:<br>)$/i', trim($line), $bits);
+			if ($mOld) {
+				pretty_log($n, $bits[1], $bits[2], $bits[3]);
+			} elseif ($mNew) {
 				pretty_log($n, $bits[1], $bits[2], $bits[3]);
 			} else {
 				print "<p>$line</p>";
 			}
 		}
 	}
-
+?>
+	</div>
+<?php
 	require("html/log_footer.php");

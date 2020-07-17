@@ -12,13 +12,25 @@
 			$("#filters").removeClass('faded');
 			$("#show-ckeys > input").removeAttr('disabled');
 			$("#show-ckeys").removeClass('faded');
+			$("#show-reltime > input").removeAttr('disabled');
+			$("#show-reltime").removeClass('faded');
 
 			$("#show-ckeys > input").change( function () {
 				var e = $(this);
 				if (e.prop('checked')) {
-					$('.ckey').show();
+					$('#log').removeClass("hide-ckey");
 				} else {
-					$('.ckey').hide();
+					$('#log').addClass("hide-ckey");
+				}
+
+			});
+
+			$("#show-reltime > input").change( function () {
+				var e = $(this);
+				if (e.prop('checked')) {
+					$('#log').removeClass("show-realtime").addClass("show-reltime");
+				} else {
+					$('#log').removeClass("show-reltime").addClass("show-realtime");
 				}
 
 			});
@@ -36,11 +48,13 @@
 				var e = $(this);
 				var n = e.attr('name');
 				if (e.prop('checked')) {
-					$('.log-' + n).show();
-					$('.opt-' + n).removeClass('faded');
+					$('#log').removeClass("hide-" + n);
+					//$('.log-' + n).show();
+					//$('.opt-' + n).removeClass('faded');
 				} else {
-					$('.log-' + n).hide();
-					$('.opt-' + n).addClass('faded');
+					$('#log').addClass("hide-" + n);
+					// $('.log-' + n).hide();
+					// $('.opt-' + n).addClass('faded');
 				}
 			});
 

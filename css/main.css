@@ -84,8 +84,6 @@ p {
 .log-bombing .type, .opt-bombing	{ background-color: #888; color: #333; }
 
 
-
-
 .name {
 	color: #080;
 	font-weight: bold;
@@ -100,7 +98,6 @@ p {
 }
 .name + .ckey {
 	font-size: 80%;
-	display: none;
 }
 
 .antag {
@@ -215,3 +212,23 @@ button, input[type=submit] { display: block; width: 100%; }
 	white-space: pre;
 	margin-left: 11em;
 }
+
+
+.show-realtime .ts .reltime { display: none; }
+.show-reltime .ts .realtime { display: none; }
+.hide-ckey .name + .ckey { display: none; }
+.hide-station .log-station { display: none; }
+.hide-admin .log-admin { display: none; }
+.hide-debug .log-debug { display: none; }
+.hide-diary .log-diary { display: none; }
+.hide-adminhelp .log-adminhelp { display: none; }
+.hide-mentor .log-mentor { display: none; }
+.hide-ooc .log-ooc { display: none; }
+.hide-say .log-say { display: none; }
+.hide-whisper .log-whisper { display: none; }
+.hide-emote .log-emote { display: none; }
+.hide-pdamsg .log-pdamsg { display: none; }
+.hide-combat .log-combat { display: none; }
+.hide-vehicle .log-vehicle { display: none; }
+.hide-pathology .log-pathology { display: none; }
+.hide-bombing .log-bombing { display: none; }
