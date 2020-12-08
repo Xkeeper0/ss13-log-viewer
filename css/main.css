@@ -83,6 +83,8 @@ p {
 .log-bombing		{ background-color: #aaa; }
 .log-bombing .type, .opt-bombing	{ background-color: #888; color: #333; }
 
+.log-tgui	{ background-color: #cef; }
+.log-tgui .type, .opt-tguipathology { background-color: #9bc; color: #356; }
 
 .name {
 	color: #080;
@@ -229,6 +231,7 @@ button, input[type=submit] { display: block; width: 100%; }
 .hide-whisper .log-whisper { display: none; }
 .hide-emote .log-emote { display: none; }
 .hide-telepathy .log-telepathy { display: none; }
+.hide-tgui .log-tgui { display: none; }
 .hide-pdamsg .log-pdamsg { display: none; }
 .hide-combat .log-combat { display: none; }
 .hide-vehicle .log-vehicle { display: none; }

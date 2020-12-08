@@ -77,6 +77,7 @@
 		'pathology',
 		'bombing',
 		'telepathy',
+		'tgui',
 	];
 
 	foreach ($types as $type) {
