@@ -78,6 +78,7 @@
 		'bombing',
 		'telepathy',
 		'tgui',
+		'computers',
 	];
 
 	foreach ($types as $type) {
