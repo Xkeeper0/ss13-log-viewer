@@ -77,6 +77,10 @@ E;
 		// canisters
 		$msg	= preg_replace_callback('#\(<b>Pressure:</b> <i>([0-9a-z. ]+)<\/i>. <b>Temp:</b> <i>([0-9&;a-z-]+)</i>, <b>Contents:</b> <i>(.*)<\/i>#i', 'do_canister_atmos', $msg);
 
+		// canvases
+		$msg	= preg_replace_callback('#canvas\{\[(0x[0-9a-f]+)\], ([0-9-]+), ([0-9-]+), ([^}]+)\}#i', 'do_canvas', $msg);
+
+
 		// deaths
 		$msg	= preg_replace_callback('#\(<b>Damage:</b> <i>([0-9., ]+)<\/i>\)#i', 'do_damage_readout', $msg);
 
@@ -98,6 +102,62 @@ E;
 		}
 
 		return $msg;
+	}
+
+	// Provides a fancy hover-over-able bar for canister atmos. Very janky and based on how the game outputs its log message.
+	// Could be made to be more better but right now: isn't!
+	function do_canvas($matches) {
+		static $canvases = [];
+		static $colors = [			// BYOND HTML colors https://www.byond.com/docs/ref/#/{{appendix}}/html-colors
+			'black'		=> "#000000",
+			'silver'	=> "#C0C0C0",
+			'gray'		=> "#808080",
+			'grey'		=> "#808080",
+			'white'		=> "#FFFFFF",
+			'maroon'	=> "#800000",
+			'red'		=> "#FF0000",
+			'purple'	=> "#800080",
+			'fuchsia'	=> "#FF00FF",
+			'magenta'	=> "#FF00FF",
+			'green'		=> "#00C000",
+			'lime'		=> "#00FF00",
+			'olive'		=> "#808000",
+			'gold'		=> "#808000",
+			'yellow'	=> "#FFFF00",
+			'navy'		=> "#000080",
+			'blue'		=> "#0000FF",
+			'teal'		=> "#008080",
+			'aqua'		=> "#00FFFF",
+			'cyan'		=> "#00FFFF",
+			];
+
+		$canvas		= "c". $matches[1];
+		if (!isset($canvases[$canvas])) {
+			$canvases[$canvas]	= imagecreatetruecolor(32, 32);
+			imagefilledrectangle($canvases[$canvas], 0, 0, 32, 32, 0xFFFFFF);
+		}
+
+		if (isset($colors[$matches[4]])) {
+			// covertly pretend it was html all along
+			$matches[4]	= $colors[$matches[4]];
+		}
+		if ($matches[4][0] === "#") {
+			$color	= imagecolorallocate($canvases[$canvas],
+			hexdec(substr($matches[4], 1, 2)),
+			hexdec(substr($matches[4], 3, 2)),
+			hexdec(substr($matches[4], 5, 2)));
+		} else {
+			$color = 0xFF0000;
+		}
+
+		if ($matches[2] == -1 && $matches[3] == -1) {
+			imagefilledrectangle($canvases[$canvas], 0, 0, 32, 32, $color);
+		} else {
+			imagesetpixel($canvases[$canvas], $matches[2], 31 - $matches[3], $color);
+		}
+		ob_start();
+		imagepng($canvases[$canvas]);
+		return "<img src=\"data:image/png;base64, ". base64_encode(ob_get_clean()) ."\" title=\"$matches[1]\" style=\"vertical-align: middle;\"> $matches[1]";
 	}
 
 
