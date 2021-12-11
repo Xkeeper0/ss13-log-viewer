@@ -236,7 +236,7 @@ E;
 	 */
 	function log_date_relative($filename) {
 		$x = explode("-", str_replace(".html", "", $filename));
-		$y = sprintf("%04d-%02d-%02d %02d:%02d:00 GMT-4", $x[0], $x[1], $x[2], $x[3], $x[4]);
+		$y = sprintf("%04d-%02d-%02d %02d:%02d:00 UTC+0", $x[0], $x[1], $x[2], $x[3], $x[4]);
 		$s = time() - strtotime($y);
 
 		return timeunits2($s);
