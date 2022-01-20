@@ -18,14 +18,14 @@
 		if ($typeL === "tgui" && strpos($msg, "Using: /obj/item/paper") !== false && strpos($msg, "Action: save") !== false) {
 			$parts = explode("<br>", $msg, 3);
 			if (count($parts) > 2) {
-				$json = json_decode(substr(explode("Action: save ", $parts[2])[1], 0, -4)); // get the JSON, stripping <br> at the end
+				$json = json_decode(explode("Action: save ", $parts[2])[1]);
 				$msg = $parts[0] . "<br>" . $parts[1] . "<br>" . "Action: save <br><div style='border:1px black solid;'>" . $json->text . "</div>";
 			}
 		}
 		else if ($typeL === "tgui") {
 			$parts = explode("<br>", $msg, 2);
 			if (count($parts) > 1)
-				$msg = $parts[0] . "<code>" . str_replace("\n", "<br>", htmlentities(str_replace("<br>", "\n", $parts[1])))  . "</code>";
+				$msg = $parts[0] . "<br><code>" . str_replace("\n", "<br>", htmlentities(str_replace("<br>", "\n", $parts[1])))  . "</code>";
 		}
 
 		if ($typeL === "mentor_help") {
