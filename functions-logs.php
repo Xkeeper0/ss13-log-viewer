@@ -14,6 +14,19 @@
 		if ($typeL === "say" && strpos($msg, ": EMOTE:") !== false) {
 			$typeL = "emote";
 		}
+		
+		if ($typeL === "tgui" && strpos($msg, "Using: /obj/item/paper") !== false && strpos($msg, "Action: save") !== false) {
+			$parts = explode("<br>", $msg, 2);
+			if (count($parts) > 1) {
+				$json = json_decode(substr(explode("Action: save ", $parts[1])[1], 0, -4)); // get the JSON, stripping <br> at the end
+				$msg = $parts[0] . "Action: save <br><div style='border:1px black solid;'>" . $json->text . "</div>";
+			}
+		}
+		else if ($typeL === "tgui") {
+			$parts = explode("<br>", $msg, 2);
+			if (count($parts) > 1)
+				$msg = $parts[0] . "<xmp>" . $parts[1] . "</xmp>";
+		}
 
 		if ($typeL === "mentor_help") {
 			$typeL = "mentor";
