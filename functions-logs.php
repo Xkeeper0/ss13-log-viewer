@@ -214,11 +214,11 @@ E;
 		$a = [];
 		$m = preg_match('#((?:[0-9.]+)?), ([0-9.]+), ([0-9.]+), ([0-9.]+), ([0-9.]+)#', $matches[1], $a);
 
-		if(count($a) <= 1) {
-			print "<pre>";
-			var_dump($matches, $m, $a);
-			die();
-		}
+		/*
+		print "<pre>";
+		var_dump($matches, $m, $a);
+		die();
+		*/
 
 		$out	= "<span class='damage'>";
 		$dam	= ['brain', 'oxy', 'tox', 'burn', 'brute'];
