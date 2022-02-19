@@ -40,7 +40,7 @@
 		die("Error opening log. Sorry. It broke. Oh well.");
 	}
 
-
+	$title = $server . " - " . $log;
 	require("html/log_header.php");
 
 	// This is arbitrarily chosen as a "round ended" semaphore, but in theory it could be anything.
