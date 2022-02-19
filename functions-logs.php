@@ -212,13 +212,13 @@ E;
 
 
 		$a = [];
-		$m = preg_match('#([0-9.]+), ([0-9.]+), ([0-9.]+), ([0-9.]+), ([0-9.]+)#', $matches[1], $a);
+		$m = preg_match('#((?:[0-9.]+)?), ([0-9.]+), ([0-9.]+), ([0-9.]+), ([0-9.]+)#', $matches[1], $a);
 
-		/*
-		print "<pre>";
-		var_dump($matches, $m, $a);
-		die();
-		*/
+		if(count($a) <= 1) {
+			print "<pre>";
+			var_dump($matches, $m, $a);
+			die();
+		}
 
 		$out	= "<span class='damage'>";
 		$dam	= ['brain', 'oxy', 'tox', 'burn', 'brute'];
@@ -227,9 +227,10 @@ E;
 		foreach ($dam as $n => $poo) {
 
 			$temp	= $a[$n];
-			$temp2	= ceil($temp);
+			$temp2	= $temp == "" ? "null" : ceil($temp);
 			$out	.= " <span class='damage-$poo' title='$poo: $temp'>$temp2</span> ";
-			$m += $temp2 + 1;
+			if (is_numeric($temp2))
+				$m += $temp2 + 1;
 
 		}
 		$out	.= "</span> ";
