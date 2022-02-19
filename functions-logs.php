@@ -212,7 +212,7 @@ E;
 
 
 		$a = [];
-		$m = preg_match('#((?:[0-9.]+)?), ([0-9.]+), ([0-9.]+), ([0-9.]+), ([0-9.]+)#', $matches[1], $a);
+		$m = preg_match('#((?:[0-9.]+)?), ([0-9.]+)(?:, ([0-9.]+), ([0-9.]+), ([0-9.]+))?#', $matches[1], $a);
 
 		/*
 		print "<pre>";
@@ -224,6 +224,9 @@ E;
 		$dam	= ['brain', 'oxy', 'tox', 'burn', 'brute'];
 		$m		= 0;
 		array_shift($a);
+		if (count($a) == 2) { // silicon
+		  $dam = ['burn', 'brute'];
+		}
 		foreach ($dam as $n => $poo) {
 
 			$temp	= $a[$n];
