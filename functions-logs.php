@@ -7,6 +7,7 @@
 
 
 	function pretty_log($line, $time, $type, $msg) {
+
 		static $firstTimestamp	= null;
 
 		$typeL	= strtolower($type);
@@ -50,6 +51,10 @@
 			$msg = $msgdom->saveHTML();
 		} else {
 			$msg	= '<span class="message">'. $msg .'</span>';
+		}
+
+		if (stripos($msg, "the emergency shuttle has arrived at centcom") !== false) {
+			$msg .= "<div class='stickytop hogwild'>Round ended!</div>";
 		}
 
 		$timeReal	= $time;
@@ -212,7 +217,7 @@ E;
 
 
 		$a = [];
-		$m = preg_match('#([0-9.]+), ([0-9.]+), ([0-9.]+), ([0-9.]+), ([0-9.]+)#', $matches[1], $a);
+		$m = preg_match('#((?:[0-9.]+)?), ([0-9.]+)(?:, ([0-9.]+), ([0-9.]+), ([0-9.]+))?#', $matches[1], $a);
 
 		/*
 		print "<pre>";
@@ -224,12 +229,16 @@ E;
 		$dam	= ['brain', 'oxy', 'tox', 'burn', 'brute'];
 		$m		= 0;
 		array_shift($a);
+		if (count($a) == 2) { // silicon
+		  $dam = ['burn', 'brute'];
+		}
 		foreach ($dam as $n => $poo) {
 
 			$temp	= $a[$n];
-			$temp2	= ceil($temp);
+			$temp2	= $temp == "" ? "null" : ceil($temp);
 			$out	.= " <span class='damage-$poo' title='$poo: $temp'>$temp2</span> ";
-			$m += $temp2 + 1;
+			if (is_numeric($temp2))
+				$m += $temp2 + 1;
 
 		}
 		$out	.= "</span> ";

@@ -194,6 +194,7 @@ p {
 	padding: .25em .5em;
 	background: white;
 	max-width: 300px;
+	z-index: 1;
 }
 
 #filters {
@@ -217,6 +218,21 @@ button, input[type=submit] { display: block; width: 100%; }
 	overflow: auto;
 	white-space: pre;
 	margin-left: 11em;
+}
+
+.stickytop {
+	position: sticky;
+	top: -1px;
+	display: inline-block;
+	width: 100%;
+	text-align: center;
+	padding: 3px;
+}
+
+.hogwild {
+	font-weight: bold;
+	background-color: #800;
+	color: white;
 }
 
 

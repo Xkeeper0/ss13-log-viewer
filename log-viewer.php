@@ -40,7 +40,7 @@
 		die("Error opening log. Sorry. It broke. Oh well.");
 	}
 
-
+	$title = $server . " - " . $log;
 	require("html/log_header.php");
 
 	// This is arbitrarily chosen as a "round ended" semaphore, but in theory it could be anything.
@@ -137,7 +137,7 @@ ckey2
 			$matched_any	= 0;
 			$print = false;
 			foreach ($search as $term) {
-				if ($term{0} === "+") {
+				if ($term[0] === "+") {
 					$has_required = 1;
 					if (stripos($line, substr($term, 1)) === false) {
 						$print	= false;
@@ -147,13 +147,13 @@ ckey2
 					// Continue to see if another term matches somewhere
 					continue;
 
-				} elseif ($term{0} === "-" && stripos($line, substr($term, 1)) !== false) {
+				} elseif ($term[0] === "-" && stripos($line, substr($term, 1)) !== false) {
 					// Has ignored term; ignore line
 					$print = false;
 					break;
 				}
 
-				if ($term{0} === "+" || $term{0} === "-") {
+				if ($term[0] === "+" || $term[0] === "-") {
 					$term	= substr($term, 1);
 					$print	= ($print === null ? true : false);
 				}
