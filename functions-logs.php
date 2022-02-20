@@ -7,6 +7,7 @@
 
 
 	function pretty_log($line, $time, $type, $msg) {
+
 		static $firstTimestamp	= null;
 
 		$typeL	= strtolower($type);
@@ -50,6 +51,10 @@
 			$msg = $msgdom->saveHTML();
 		} else {
 			$msg	= '<span class="message">'. $msg .'</span>';
+		}
+
+		if (stripos($msg, "the emergency shuttle has arrived at centcom") !== false) {
+			$msg .= "<div class='stickytop hogwild'>Round ended!</div>";
 		}
 
 		$timeReal	= $time;
