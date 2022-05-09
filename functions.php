@@ -47,19 +47,31 @@
 			throw new \Exception("Can't get a log from a server without both a log and a server. How did you get here?");
 		}
 
-		$localFile = "logs/$server/$log";
-		if (!$redownload && file_exists($localFile)) {
-			return file_get_contents($localFile);
+		$localFile		= "logs/$server/$log";
+		$localFileGZ	= $localFile .".xgz";	// "why xgz instead of gz?" not a gzip file, just data
+
+		if (!$redownload) {
+			if (ZLOG_ENABLE_COMPRESSION && file_exists($localfileGZ)) {
+				return gzuncompress(file_get_contents($localFileGZ));
+
+			} elseif (file_exists($localFile)) {
+				return file_get_contents($localFile);
+			}
 		}
+
 
 		$html = @file_get_contents(get_remote_log_url($server, $log));
 		if ($html === false) {
 			throw new \Exception("Failed to get log '$log' from server '$server'. Uh oh!");
 		}
 
-		file_put_contents($localFile, $html);
-		return $html;
+		if (ZLOG_ENABLE_COMPRESSION) {
+			file_put_contents($localFileGZ, gzcompress($html));
+		} else {
+			file_put_contents($localFile, $html);
+		}
 
+		return $html;
 
 	}
 
@@ -162,7 +174,7 @@
 			$prevDate = null;
 			foreach ($logs[$serverId] as $log) {
 				$islocal	= 0;
-				if (isset($ourLogs[$log])) {
+				if (isset($ourLogs[$log]) || isset($ourLogs[$log .".xgz"])) {
 					unset($ourLogs[$log]);
 					$islocal = 1;
 				}
