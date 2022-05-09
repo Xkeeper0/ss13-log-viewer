@@ -9,24 +9,25 @@
 	function pretty_log($line, $time, $type, $msg) {
 
 		static $firstTimestamp	= null;
-
 		$typeL	= strtolower($type);
 
 		if ($typeL === "say" && strpos($msg, ": EMOTE:") !== false) {
 			$typeL = "emote";
 		}
-		
-		if ($typeL === "tgui" && strpos($msg, "Using: /obj/item/paper") !== false && strpos($msg, "Action: save") !== false) {
-			$parts = explode("<br>", $msg, 3);
-			if (count($parts) > 2) {
-				$json = json_decode(explode("Action: save ", $parts[2])[1]);
-				$msg = $parts[0] . "<br>" . $parts[1] . "<br>" . "Action: save <br><div style='border:1px black solid;'>" . $json->text . "</div>";
+
+		if ($typeL === "tgui") {
+			if (strpos($msg, "Using: /obj/item/paper") !== false && strpos($msg, "Action: save") !== false) {
+				$parts = explode("<br>", $msg, 3);
+				if (count($parts) > 2) {
+					$json = json_decode(explode("Action: save ", $parts[2])[1]);
+					$msg = $parts[0] . "<br>" . $parts[1] . "<br>" . "Action: save <br><div style='border:1px black solid;'>" . $json->text . "</div>";
+				}
+			} else {
+				$parts = explode("<br>", $msg, 2);
+				if (count($parts) > 1) {
+					$msg = $parts[0] . "<br><code>" . str_replace("\n", "<br>", htmlentities(str_replace("<br>", "\n", $parts[1])))  . "</code>";
+				}
 			}
-		}
-		else if ($typeL === "tgui") {
-			$parts = explode("<br>", $msg, 2);
-			if (count($parts) > 1)
-				$msg = $parts[0] . "<br><code>" . str_replace("\n", "<br>", htmlentities(str_replace("<br>", "\n", $parts[1])))  . "</code>";
 		}
 
 		if ($typeL === "mentor_help") {

@@ -82,7 +82,7 @@
 	];
 
 	foreach ($types as $type) {
-		print "<label class='opt opt-$type'><input type='checkbox' name='$type' checked disabled> $type</label>\n";
+		print "<label class='opt opt-$type'><input type='checkbox' name='$type' ". ($type !== "tgui" ? "checked" : "") ." disabled> $type</label>\n";
 	}
 
 
@@ -93,7 +93,7 @@
 		<br>
 		<br>
 		<strong>Filter by text:</strong><br>
-		<span style="font-size: 70%;">one term per line<br>+term: match must include<br>-term: ignore<br>term: must match <em>any</em></span><br>
+		<span style="font-size: 70%;">one term per line<br><strong>!term</strong>: match must include<br><strong>-term</strong>: ignore<br><strong>term</strong>: must match <em>any</em></span><br>
 		<form method="get">
 			<input type="hidden" name="server" value="<?php print $_GET['server']; ?>">
 			<input type="hidden" name="view" value="<?php print $_GET['view']; ?>">
@@ -107,7 +107,7 @@ ckey2
 		</div>
 		<a href='?' style="display: block; text-align: center;">&larr; back to list</a>
 	</div>
-	<div id="log" class="show-realtime">
+	<div id="log" class="show-realtime hide-tgui">
 <?php
 
 
@@ -137,7 +137,7 @@ ckey2
 			$matched_any	= 0;
 			$print = false;
 			foreach ($search as $term) {
-				if ($term[0] === "+") {
+				if ($term[0] === "!") {
 					$has_required = 1;
 					if (stripos($line, substr($term, 1)) === false) {
 						$print	= false;
