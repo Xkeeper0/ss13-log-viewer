@@ -86,8 +86,8 @@ p {
 .log-tgui	{ background-color: #cef; }
 .log-tgui .type, .opt-tgui { background-color: #9bc; color: #356; }
 
-.log-computers	{ background-color: #cfe; }
-.log-computers .type, .opt-computers { background-color: #9c9; color: #356; }
+.log-topic	{ background-color: #cfe; }
+.log-topic .type, .opt-topic { background-color: #9c9; color: #356; }
 
 .name {
 	color: #080;
@@ -256,4 +256,4 @@ button, input[type=submit] { display: block; width: 100%; }
 .hide-vehicle .log-vehicle { display: none; }
 .hide-pathology .log-pathology { display: none; }
 .hide-bombing .log-bombing { display: none; }
-.hide-computers .log-computers { display: none; }
+.hide-topic .log-topic { display: none; }
