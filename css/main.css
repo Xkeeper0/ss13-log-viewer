@@ -77,6 +77,9 @@ p {
 .log-vehicle	{ background-color: #ddd; }
 .log-vehicle .type, .opt-vehicle { background-color: #bbb; color: #555; }
 
+.log-gamemode	{ background-color: #ece; }
+.log-gamemode .type, .opt-gamemode { background-color: #dbd; color: #535; }
+
 .log-pathology	{ background-color: #cfc; }
 .log-pathology .type, .opt-pathology { background-color: #9c9; color: #363; }
 
