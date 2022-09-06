@@ -74,6 +74,7 @@
 		'pdamsg',
 		'combat',
 		'vehicle',
+		'gamemode',
 		'pathology',
 		'bombing',
 		'telepathy',
