@@ -50,11 +50,11 @@ p {
 .log-diary	{ background-color: #eca; }
 .log-diary .type, .opt-diary { background-color: #db9; color: #643; }
 
-.log-adminhelp	{ background-color: #77e; }
-.log-adminhelp .type, .opt-adminhelp { background-color: #447; color: #ccf; }
+.log-ahelp	{ background-color: #77e; }
+.log-ahelp .type, .opt-ahelp { background-color: #447; color: #ccf; }
 
-.log-mentor		{ background-color: #dae; }
-.log-mentor .type, .opt-mentor	{ background-color: #647; color: #dae; }
+.log-mhelp		{ background-color: #dae; }
+.log-mhelp .type, .opt-mhelp	{ background-color: #647; color: #dae; }
 
 .log-ooc		{ background-color: #bbf; }
 .log-ooc .type, .opt-ooc		{ background-color: #88f; color: #116; }
