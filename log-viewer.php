@@ -80,9 +80,13 @@
 		'tgui',
 		'topic',
 	];
+	$unchecked_types = [
+		'tgui',
+		'topic',
+	];
 
 	foreach ($types as $type) {
-		print "<label class='opt opt-$type'><input type='checkbox' name='$type' ". ($type !== "tgui" ? "checked" : "") ." disabled> $type</label>\n";
+		print "<label class='opt opt-$type'><input type='checkbox' name='$type' ". (in_array($type, $unchecked_types) ? "" : "checked") ." disabled> $type</label>\n";
 	}
 
 
