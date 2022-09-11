@@ -112,7 +112,7 @@ ckey2
 		</div>
 		<a href='?' style="display: block; text-align: center;">&larr; back to list</a>
 	</div>
-	<div id="log" class="show-realtime hide-tgui">
+	<div id="log" class="show-realtime">
 <?php
 
 
@@ -192,5 +192,13 @@ ckey2
 	}
 ?>
 	</div>
+	<script>
+		const filters = document.getElementById('filters');
+		const inputs = filters.getElementsByTagName('input');
+		const log = document.getElementById('log');
+		for (let input of inputs)
+			if (input.checked != true)
+				log.classList.add('hide-' + input.name);
+	</script>
 <?php
 	require("html/log_footer.php");
