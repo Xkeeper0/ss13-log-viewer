@@ -73,6 +73,7 @@
 		'emote',
 		'pdamsg',
 		'combat',
+		'chemistry',
 		'vehicle',
 		'gamemode',
 		'pathology',

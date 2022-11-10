@@ -74,6 +74,9 @@ p {
 .log-combat		{ background-color: #fdd; }
 .log-combat .type, .opt-combat	{ background-color: #fbb; color: #f44; }
 
+.log-chemistry	{ background-color: #fb7 }
+.log-chemistry .type, .opt-chemistry { background-color: #fa5; color:#f54; }
+
 .log-vehicle	{ background-color: #ddd; }
 .log-vehicle .type, .opt-vehicle { background-color: #bbb; color: #555; }
 
