@@ -249,7 +249,7 @@ button, input[type=submit] { display: block; width: 100%; }
 .hide-admin .log-admin { display: none; }
 .hide-debug .log-debug { display: none; }
 .hide-diary .log-diary { display: none; }
-.hide-adminhelp .log-adminhelp { display: none; }
+.hide-ahelp .log-ahelp { display: none; }
 .hide-mentor .log-mentor { display: none; }
 .hide-ooc .log-ooc { display: none; }
 .hide-say .log-say { display: none; }
@@ -259,6 +259,7 @@ button, input[type=submit] { display: block; width: 100%; }
 .hide-tgui .log-tgui { display: none; }
 .hide-pdamsg .log-pdamsg { display: none; }
 .hide-combat .log-combat { display: none; }
+.hide-chemistry .log-chemistry { display: none; }
 .hide-vehicle .log-vehicle { display: none; }
 .hide-pathology .log-pathology { display: none; }
 .hide-bombing .log-bombing { display: none; }
