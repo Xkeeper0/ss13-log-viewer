@@ -43,9 +43,8 @@
 	$title = $server . " - " . $log;
 	require("html/log_header.php");
 
-	// This is arbitrarily chosen as a "round ended" semaphore, but in theory it could be anything.
-	// I just chose this because I wrote it and it always print(s/ed) when the round 'ends'.
-	if (strpos($file, "Zamujasa/CREWCREDITS") === false) {
+	// thankfully nobody wille ver abuse this.
+	if (strpos($file, "the emergency shuttle has arrived at centcom") === false && strpos($file, "The round is now over. Round time:") === false) {
 		echo "<div style='font-size: 200%; margin-right:300px;'>It looks like this log might be incomplete. This might be because the round wasn't over when it was downloaded (or it might still be going on, who knows). <a href='?redownload=1&amp;server=". $_GET['server'] ."&amp;view=". $_GET['view'] ."'>Redownload?</a></div>";
 	}
 
