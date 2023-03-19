@@ -124,7 +124,9 @@ ckey2
 
 
 	$search	= [];
+	$skip_tgui	= true;
 	if (isset($_GET['search-string'])) {
+		$skip_tgui = false;
 		$s		= trim(str_replace("\r", "", $_GET['search-string']));
 		$sterm	= explode("\n", $s);
 		foreach ($sterm as $term)

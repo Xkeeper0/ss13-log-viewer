@@ -7,8 +7,14 @@
 
 
 	function pretty_log($line, $time, $type, $msg) {
+		// lord forgive me for i have sinned
+		// in E_FUTURE, if the log reader is ever refactored
+		// and made into an object, this can - gasp - be a property
+		global $skip_tgui;
 
+		static $roundEnded		= false;
 		static $firstTimestamp	= null;
+
 		$typeL	= strtolower($type);
 
 		if ($typeL === "say" && strpos($msg, ": EMOTE:") !== false) {
@@ -23,6 +29,11 @@
 					$msg = $parts[0] . "<br>" . $parts[1] . "<br>" . "Action: save <br><div style='border:1px black solid;'>" . $json->text . "</div>";
 				}
 			} else {
+				if ($skip_tgui) {
+					// if you aren't searching for anything just do not show tgui shit at all.
+					// tgui spam accounts for a TON of log noise. fuck you tgui
+					return;
+				}
 				$parts = explode("<br>", $msg, 2);
 				if (count($parts) > 1) {
 					$msg = $parts[0] . "<br><code>" . str_replace("\n", "<br>", htmlentities(str_replace("<br>", "\n", $parts[1])))  . "</code>";
@@ -54,7 +65,21 @@
 			$msg	= '<span class="message">'. $msg .'</span>';
 		}
 
-		if (stripos($msg, "the emergency shuttle has arrived at centcom") !== false) {
+		// OLD NOTICES:
+		// ooc  "the emergency shuttle has arrived at centcom"
+		// ooc  "current round begins"
+		// station "called the emergency shuttle"
+		// NEW NOTICES
+		// station "current round begins"
+		// station "The round is now over."
+
+		// if the round is not over AND we got one of the messages, mark the round as beingo ver
+		if ( !$round_ended &&
+			(
+				(($typeL == "station") && stripos($msg, "the emergency shuttle has arrived at centcom") !== false)
+				|| (($typeL == "station") && stripos($msg, "the round is now over") !== false)
+			)
+		) {
 			$msg .= "<div class='stickytop hogwild'>Round ended!</div>";
 		}
 
@@ -62,6 +87,11 @@
 		$timeTSS	= explode(".", $timeReal);
 		$timeTS		= strtotime($timeReal) + floatval("0." . $timeTSS[1]);
 		if (!$firstTimestamp) {
+			$firstTimestamp = $timeTS;
+		}
+
+		if (($typeL == "station" || $typeL == "ooc") && stripos($msg, "current round begins") !== false) {
+			// reset relative timestamp when the round begins
 			$firstTimestamp = $timeTS;
 		}
 
@@ -90,7 +120,7 @@ E;
 		$msg	= preg_replace("/<a href=(?:'|\")\\?src=%admin_ref%;action=jumptocoords;target=[^'\"]+(?:'|\") title='Jump to Coords'>([^<]+)<\/a>/i", '<span class="location"><span>(\1)</span></span>', $msg);
 
 		// beaker contents
-		$msg	= preg_replace('#\(<b>Contents:</b> <i>(.*)<\/i>. <b>Temp:</b> <i>([0-9. K]+)</i>\)#i', '<span class="reagents">\1, \2</span>', $msg);
+		$msg	= preg_replace('#\(<b>Contents:</b> <i>(.*?)<\/i>. <b>Temp:</b> <i>([0-9. K]+)</i>\)#i', '<span class="reagents">\1, \2</span>', $msg);
 		$msg	= str_replace('(<b>Contents:</b> <i>nothing</i>)', '<span class="reagents empty">&mdash;</span>', $msg);
 
 		// canisters
