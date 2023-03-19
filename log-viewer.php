@@ -104,7 +104,7 @@
 			<input type="hidden" name="view" value="<?php print $_GET['view']; ?>">
 			<textarea name="search-string" style="display: block; height: 7em;" placeholder="ckey1
 ckey2
-+with the
+!with the
 -Shitty Bill"><?php if (isset($_GET['search-string'])) echo htmlspecialchars($_GET['search-string']); ?></textarea>
 			<input type="submit" value="Filter">
 		</form>
