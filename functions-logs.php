@@ -121,8 +121,8 @@ E;
 		$msg	= preg_replace("/<a href=(?:'|\")\\?src=%admin_ref%;action=jumptocoords;target=[^'\"]+(?:'|\") title='Jump to Coords'>([^<]+)<\/a>/i", '<span class="location"><span>(\1)</span></span>', $msg);
 
 		// beaker contents
-		$msg	= preg_replace('#\(<b>Contents:</b> <i>(.*?)<\/i>. <b>Temp:</b> <i>([0-9. K]+)</i>\)#i', '<span class="reagents">\1, \2</span>', $msg);
 		$msg	= str_replace('(<b>Contents:</b> <i>nothing</i>)', '<span class="reagents empty">&mdash;</span>', $msg);
+		$msg	= preg_replace('#\(<b>Contents:</b> <i>(.*?)<\/i>. <b>Temp:</b> <i>([0-9. K]+)</i>\)#i', '<span class="reagents">\1, \2</span>', $msg);
 
 		// canisters
 		$msg	= preg_replace_callback('#\(<b>Pressure:</b> <i>([0-9a-z. ]+)<\/i>. <b>Temp:</b> <i>([0-9&;a-z-]+)</i>, <b>Contents:</b> <i>(.*)<\/i>#i', 'do_canister_atmos', $msg);
