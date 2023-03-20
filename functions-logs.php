@@ -74,13 +74,14 @@
 		// station "The round is now over."
 
 		// if the round is not over AND we got one of the messages, mark the round as beingo ver
-		if ( !$round_ended &&
+		if ( !$roundEnded &&
 			(
 				(($typeL == "station") && stripos($msg, "the emergency shuttle has arrived at centcom") !== false)
 				|| (($typeL == "station") && stripos($msg, "the round is now over") !== false)
 			)
 		) {
 			$msg .= "<div class='stickytop hogwild'>Round ended!</div>";
+			$roundEnded = true;
 		}
 
 		$timeReal	= $time;
